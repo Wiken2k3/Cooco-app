@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #F2F2F7;
+  --color-card: #FFFFFF;
+  --color-text: #1C1C1E;
+  --color-text-muted: #8E8E93;
+  --color-border: #E5E5EA;
+
+  --color-main: #007AFF; /* ✅ FIX */
+  --color-button-bg: #D1E5F8;
+  --color-button-hover: #B3D9F2;
+  --color-button-color: #007AFF;
+
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+html.dark {
+  --color-bg: #000000;
+  --color-card: #1C1C1E;
+  --color-text: #FFFFFF;
+  --color-text-muted: #8E8E93;
+  --color-border: #38383A;
+
+  --color-main: #57BBFF; /* ✅ FIX cho dark */
+  --color-button-bg: rgba(24, 186, 248, 0.2);
+  --color-button-hover: rgba(24, 186, 248, 0.3);
+  --color-button-color: #57BBFF;
+}
+
+body {
+  @apply font-sans antialiased;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
