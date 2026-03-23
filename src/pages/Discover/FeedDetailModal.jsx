@@ -1,46 +1,86 @@
-import { X } from "lucide-react";
+import { X, Check, ExternalLink } from "lucide-react";
 
 export default function FeedDetailModal({ feed, onClose, onAdd, isAdded }) {
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center p-6 bg-black/60 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="w-full max-w-[340px] bg-white rounded-[40px] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-300">
-        {/* Banner */}
-        <div className={`h-36 bg-gradient-to-br ${feed.color} flex items-center justify-center relative`}>
+      
+      {/* Overlay: Nhấn ra ngoài để đóng */}
+      <div className="absolute inset-0" onClick={onClose} />
+
+      {/* Main Card */}
+      <div className="relative w-full max-w-[340px] bg-[var(--color-bg)] rounded-[40px] overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-300">
+
+        {/* Banner Section */}
+        <div className={`h-40 bg-gradient-to-br ${feed.color} flex flex-col items-center justify-center relative`}>
+          
+          {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-5 right-5 bg-black/10 hover:bg-black/20 text-white rounded-full p-1.5 transition-colors"
+            className="absolute top-4 right-4 w-8 h-8 bg-black/10 hover:bg-black/20 text-white rounded-full flex items-center justify-center transition-colors backdrop-blur-md"
           >
-            <X size={20} strokeWidth={2.5}/>
+            <X size={18} strokeWidth={2.5} />
           </button>
-          <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full border-[3px] border-white/40 flex items-center justify-center text-white text-3xl font-[900] shadow-xl">
-            {feed.avatar}
+
+          {/* Avatar với hiệu ứng Ring và Glow */}
+          <div className="relative group">
+             <div className="absolute inset-0 bg-white/20 rounded-full blur-xl group-hover:bg-white/30 transition-all duration-500" />
+             <div className="relative w-24 h-24 bg-white/10 backdrop-blur-xl rounded-full border-[3px] border-white/40 flex items-center justify-center text-white text-4xl font-[900] shadow-2xl">
+               {feed.avatar}
+             </div>
           </div>
         </div>
 
-        <div className="p-8 text-center">
-          <h3 className="text-[26px] font-[900] text-black mb-1 tracking-tight">{feed.name}</h3>
-          <p className="text-[#8E8E93] font-medium mb-8">{feed.source}</p>
+        {/* Body Content */}
+        <div className="p-8 pt-6 text-center bg-[var(--color-card)]">
+          <div className="flex items-center justify-center gap-2 mb-1">
+             <h3 className="text-[26px] font-[900] tracking-tight text-[var(--color-text)]">
+               {feed.name}
+             </h3>
+             {/* Icon tích xanh giả định cho creator xịn */}
+             <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                <Check size={12} strokeWidth={4} className="text-white" />
+             </div>
+          </div>
 
+          <div className="flex items-center justify-center gap-1.5 text-[var(--color-text-muted)] text-[14px] font-medium mb-8">
+            <span>{feed.source}</span>
+            <ExternalLink size={14} className="opacity-50" />
+          </div>
+
+          {/* Action Buttons */}
           <div className="space-y-3">
             <button
-              onClick={onAdd}
+              onClick={() => {
+                if (!isAdded) onAdd(feed);
+                onClose(); // Đóng modal sau khi add
+              }}
               disabled={isAdded}
-              className={`w-full py-4 rounded-[20px] font-black text-[17px] transition-all active:scale-95 ${
-                isAdded 
-                  ? "bg-[#F2F2F7] text-[#8E8E93]" 
-                  : "bg-[#0095FF] text-white shadow-lg shadow-blue-500/25"
-              }`}
+              className={`
+                w-full py-4 rounded-[22px] font-extrabold text-[16px] transition-all active:scale-95 flex items-center justify-center gap-2
+                ${isAdded
+                  ? "bg-[var(--color-border)] text-[var(--color-text-muted)] cursor-not-allowed"
+                  : "bg-[var(--color-main)] text-white shadow-[0_8px_20px_rgba(var(--color-main-rgb),0.3)] hover:brightness-110"
+                }
+              `}
             >
-              {isAdded ? "Already Added" : "Follow Creator"}
+              {isAdded ? (
+                <> <Check size={18} strokeWidth={3} /> Subscribed </>
+              ) : (
+                "Follow Creator"
+              )}
             </button>
+
             <button
               onClick={onClose}
-              className="w-full py-2 text-[#8E8E93] font-bold text-[15px] active:opacity-50"
+              className="w-full py-3 text-[var(--color-text-muted)] font-bold text-[14px] hover:text-[var(--color-text)] transition-colors active:opacity-50"
             >
               Maybe later
             </button>
           </div>
         </div>
+
+        {/* Bottom Decorative Bar */}
+        <div className="h-2 bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent opacity-20" />
       </div>
     </div>
   );

@@ -1,76 +1,138 @@
-import { X, ArrowRight, ChevronLeft } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { X, List, EyeOff, History, Plus, ArrowLeft, ArrowRight } from "lucide-react";
+import { discoverFeeds } from "../../data/discoverFeeds";
 
 export default function DiscoverSteps() {
-  const { stepId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
-  const step = parseInt(stepId);
+  const [currentStep, setCurrentStep] = useState(0);
 
-  const stepsContent = [
-    "Slit the dates lengthwise and remove the pit.",
-    "Fill each date with about 1 tsp of peanut butter.",
-    "Melt the chocolate and drizzle it over the stuffed dates.",
-    "Enjoy your healthy snack!"
-  ];
+  const feed = discoverFeeds.find((f) => f.id === id);
 
-  const totalSteps = stepsContent.length;
-  const isLastStep = step >= totalSteps;
-  const progress = (step / totalSteps) * 100;
+  // Redirect nếu không tìm thấy feed
+  useEffect(() => {
+    if (!feed) navigate("/discover");
+  }, [feed, navigate]);
 
-  const handleNext = () => {
-    if (isLastStep) navigate("/app/discover");
-    else navigate(`../steps/${step + 1}`);
+  if (!feed) return null;
+
+  const steps = feed.steps || [];
+  const totalSteps = steps.length;
+
+  // Hàm để highlight các từ quan trọng (Dùng dangerouslySetInnerHTML để render class Tailwind)
+  const formatStepText = (text) => {
+    const highlights = [
+      "dates", "pitted", "Medjool date", "chunky peanut butter", 
+      "walnuts", "ground cinnamon", "sea salt", "quick rolled oats", 
+      "honey", "dark chocolate chips"
+    ];
+
+    let formattedText = text;
+    highlights.forEach((word) => {
+      const regex = new RegExp(`(${word})`, "gi");
+      // Sử dụng class text-[#00A3FF] của Tailwind
+      formattedText = formattedText.replace(
+        regex, 
+        `<span class="text-[#00A3FF] font-bold">$1</span>`
+      );
+    });
+
+    return (
+      <p 
+        className="text-[32px] font-[700] leading-[1.3] text-black dark:text-white transition-all duration-300"
+        dangerouslySetInnerHTML={{ __html: formattedText }} 
+      />
+    );
   };
 
   return (
-    <div className="h-screen bg-[#F2F2F7] flex flex-col relative overflow-hidden">
-      {/* Top Bar with Progress */}
-      <div className="px-6 pt-14">
-        <div className="flex justify-between items-center mb-8 h-10">
-          <div className="w-10 flex justify-start">
-            {step > 1 && (
-              <button onClick={() => navigate(-1)} className="text-[#8E8E93] active:opacity-50 transition-opacity">
-                <ChevronLeft size={32} strokeWidth={2.5} />
-              </button>
-            )}
-          </div>
-          <button
-            onClick={() => navigate("../")}
-            className="w-9 h-9 bg-[#E5E5EA] rounded-full flex items-center justify-center active:scale-90 transition-all"
-          >
-            <X size={18} strokeWidth={2.5} className="text-[#8E8E93]" />
-          </button>
-        </div>
-        
-        {/* Progress Bar */}
-        <div className="h-1.5 w-full bg-[#E5E5EA] rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-[#0095FF] transition-all duration-500 ease-out"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Step Content */}
-      <div className="flex-1 px-8 pt-16 flex flex-col">
-        <span className="text-[#0095FF] font-[900] uppercase tracking-widest text-[13px] mb-4">
-          Step {step} of {totalSteps}
-        </span>
-
-        <h2 key={step} className="text-[34px] font-[900] text-black leading-[1.15] tracking-tight animate-in fade-in slide-in-from-bottom-4 duration-500">
-          {stepsContent[step - 1] || "All Done!"}
-        </h2>
-      </div>
-
-      {/* Floating Big Next Button */}
-      <div className="absolute bottom-16 right-8">
+    <div className="fixed inset-0 bg-white dark:bg-[#121212] z-[9999] flex flex-col px-6 pt-[env(safe-area-inset-top,20px)] pb-[env(safe-area-inset-bottom,20px)] overflow-hidden">
+      
+      {/* HEADER ACTIONS */}
+      <header className="h-[60px] flex justify-between items-center mt-2">
         <button
-          onClick={handleNext}
-          className="w-[84px] h-[84px] bg-[#0095FF] text-white rounded-full flex items-center justify-center shadow-[0_15px_30px_rgba(0,149,255,0.4)] active:scale-90 transition-transform"
+          className="p-2 text-gray-400 hover:text-gray-600 active:scale-90 transition-transform"
+          onClick={() => navigate(-1)}
         >
-          <ArrowRight size={40} strokeWidth={2.5} />
+          <X size={32} strokeWidth={1.5} />
         </button>
-      </div>
+
+        <div className="flex gap-4">
+          <HeaderIconBtn icon={<List size={26} />} />
+          <HeaderIconBtn icon={<EyeOff size={26} />} />
+          <HeaderIconBtn icon={<History size={26} />} />
+          <HeaderIconBtn icon={<Plus size={26} />} />
+        </div>
+      </header>
+
+      {/* CONTENT AREA */}
+      <main className="flex-1 flex flex-col justify-center mb-24">
+        <div className="text-[24px] text-gray-400 font-bold mb-4 tracking-tight">
+          Step {currentStep + 1}
+        </div>
+
+        <div className="min-h-[200px]">
+          {formatStepText(steps[currentStep])}
+        </div>
+      </main>
+
+      {/* NAVIGATION FOOTER */}
+      <footer className="h-[140px] relative flex flex-col items-center justify-center">
+        
+        {/* Previous Button */}
+        {currentStep > 0 && (
+          <button
+            className="absolute left-0 w-[72px] h-[72px] bg-[#00A3FF] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,163,255,0.3)] active:scale-90 transition-all"
+            onClick={() => setCurrentStep((prev) => prev - 1)}
+          >
+            <ArrowLeft size={36} color="white" strokeWidth={3} />
+          </button>
+        )}
+
+        {/* Next Button */}
+        {currentStep < totalSteps - 1 && (
+          <button
+            className="absolute right-0 w-[72px] h-[72px] bg-[#00A3FF] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,163,255,0.3)] active:scale-90 transition-all"
+            onClick={() => setCurrentStep((prev) => prev + 1)}
+          >
+            <ArrowRight size={36} color="white" strokeWidth={3} />
+          </button>
+        )}
+
+        {/* Finish Button (Xuất hiện ở bước cuối) */}
+        {currentStep === totalSteps - 1 && (
+          <button
+            className="absolute right-0 px-8 h-[72px] bg-[#34C759] text-white font-black text-xl rounded-full shadow-[0_8px_20px_rgba(52,199,89,0.3)] active:scale-90 transition-all"
+            onClick={() => navigate(-1)}
+          >
+            FINISH
+          </button>
+        )}
+
+        {/* Pagination Dots */}
+        <div className="flex gap-2.5 absolute bottom-4">
+          {steps.map((_, index) => (
+            <div
+              key={index}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                index === currentStep 
+                  ? "w-6 bg-[#00A3FF]" 
+                  : "w-2.5 bg-gray-200 dark:bg-gray-800"
+              }`}
+            />
+          ))}
+        </div>
+      </footer>
     </div>
+  );
+}
+
+// Sub-component cho các nút icon trên Header
+function HeaderIconBtn({ icon }) {
+  return (
+    <button className="p-2 text-[#8EBDD3] hover:text-[#00A3FF] active:scale-90 transition-all">
+      {icon}
+    </button>
   );
 }
