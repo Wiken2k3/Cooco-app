@@ -1,28 +1,31 @@
 # 🥗 Cooco – Smart Meal Planning & Recipe Discovery App
 
-> A modern food planning & discovery application built with React + TailwindCSS, inspired by iOS design principles and crafted from Figma.
+A modern food planning & discovery application built with **React + TailwindCSS**, inspired by **iOS design principles** and crafted from Figma.
 
-🔗 **Figma Design:**  
-👉 https://www.figma.com/design/3LS7KxG9vo9lIU5ilvgDvF/Cooco?node-id=0-1&p=f&t=qUPVJVFviNYpdwaS-0
+---
+
+## 🔗 Figma Design
+👉 [Cooco Figma Design](#)
 
 ---
 
 ## 📌 Overview
 
-**Cooco** is a UI-first application that helps users:
+Cooco is an intuitive app that helps users:
 
-- 📅 Plan meals for the week
-- 🍽 Manage daily dishes
-- 🛒 Add meals to groceries (future feature)
-- 🌤 View weather for meal planning
-- 🔍 Discover recipes from creators
+- 📅 Plan meals for the week  
+- 🍽 Manage daily dishes  
+- 🛒 Add meals to groceries *(future feature)*  
+- 🌤 View weather for meal planning  
+- 🔍 Discover recipes from creators  
 
-The project focuses on:
+### 🎯 Focus
 
-- Clean iOS-style UI
-- Smooth UX interactions
-- Scalable component architecture
-- Dark mode consistency
+- Clean iOS-style UI  
+- Smooth UX interactions  
+- Scalable component architecture  
+- Dark mode consistency  
+- Modern modal-driven UX  
 
 ---
 
@@ -30,89 +33,102 @@ The project focuses on:
 
 ### 🥗 Meal Plan
 
-- Generate missing days in current week (NOT overwrite existing data)
-- Add / remove meals dynamically
-- Per-day and per-meal dropdown actions
-- Smart UI state handling
+- **Smart Meal Generation**  
+  Automatically fill in missing days without overwriting existing data.
 
-**Actions:**
-- Add to groceries *(planned)*
-- Generate missing days
-- Clear current week
-- Show weather
+- **Dynamic Meal Management**  
+  Add/remove meals dynamically with per-day and per-meal actions.
 
----
+- **Weather Integration**  
+  View weather to plan meals accordingly.
 
-### 🔍 Discover
+#### 🔮 Planned Actions
 
-- Feed-based recipe discovery
-- Follow creators → inject content into feed
-- Empty state → onboarding experience
-- Modal-driven interactions
+- Add meals to groceries  
+- Generate missing days in the current week  
+- Clear the current week  
+- Show weather for meal planning  
 
 ---
 
-### 🌙 Dark Mode (System-based)
+### 🔍 Discover Recipes
 
-- Uses CSS variables (`--color-*`)
-- Shared across entire app (MealPlan + Discover)
-- Smooth transition animation
+- **Feed-based discovery**  
+  Explore recipes from creators or suggested content.
+
+- **Follow Creators**  
+  Inject creator content directly into your feed.
+
+- **Interactive Modals**  
+  View recipe details, add new recipes, follow creators.
+
+- **Empty State**  
+  Guide users to follow creators when no feed exists.
+
+- **Infinite Scroll**  
+  Load more feed content dynamically.
+
+---
+
+## 🌙 Dark Mode (System-based)
+
+- Uses CSS variables (`--color-*`)  
+- Smooth transition animations  
+- Consistent across all pages  
 
 ---
 
 ## 🧱 Tech Stack
 
-| Tech | Purpose |
-|------|--------|
-| React | UI framework |
-| TailwindCSS | Styling system |
-| Lucide Icons | Icon system |
-| React Router | Navigation |
-| Figma | UI/UX Design |
+| Tech            | Purpose            |
+|-----------------|-------------------|
+| React           | UI framework       |
+| TailwindCSS     | Styling system     |
+| Lucide Icons    | Icon library       |
+| React Router    | Navigation         |
+| Figma           | UI/UX Design       |
 
 ---
 
 ## 📱 Discover Page
 
-**Discover Page** là nơi người dùng khám phá công thức mới và tương tác với các creator. Thiết kế dựa trên Figma, bao gồm:
-
-- Feed-based content: hiển thị công thức theo creator hoặc đề xuất
-- Empty state: hướng dẫn người dùng follow creator để hiển thị feed
-- Modals: mở chi tiết công thức, thêm công thức mới hoặc các hành động tương tác
+The Discover Page allows users to explore recipes and interact with creators.
 
 ### 🔹 Feed Patterns
 
-- **Suggested Feeds:** Hiển thị các creator gợi ý khi feed trống
-- **Feed Items:** Hình ảnh + tiêu đề + creator + tương tác (like/share)
-- **Infinite Scroll:** Có thể load thêm feed khi scroll
+- Suggested Feeds (when empty)
+- Feed Items (thumbnail, title, creator, actions)
+- Infinite Scroll
+
+---
 
 ### 🔹 Modals
 
-| Modal | Purpose |
-|-------|---------|
-| AddRecipeModal | Thêm công thức mới |
-| FeedDetailModal | Xem chi tiết feed |
-| SuggestedFeedsModal | Follow creator gợi ý |
+| Modal                 | Purpose                    |
+|----------------------|---------------------------|
+| AddRecipeModal       | Add a new recipe          |
+| FeedDetailModal      | View recipe details       |
+| SuggestedFeedsModal  | Follow creators           |
 
-**Behavior:**
-- Modal portal-based
-- Click outside hoặc nút Close để dismiss
-- Animations: fade, slide-in, scale
+#### Behavior
+
+- Portal-based modals  
+- Click outside / Close to dismiss  
+- Smooth animations (fade, slide, scale)  
 
 ---
 
 ## 🎛 State & Logic Patterns
 
-- **Incremental state update:** không overwrite toàn bộ data, chỉ thêm mới
-- **Dropdown / Menu system:** 
-  - AppBar: menu chung
-  - DaySection: menu cho từng ngày
-  - MealItem: menu cho từng món
-- **Dark mode:** đồng bộ giữa MealPlan & Discover, CSS variables + smooth transition
-- **Weather integration:** hiển thị thời tiết hiện tại, chuẩn bị cho tính năng đề xuất meal dựa trên thời tiết
+- Incremental state updates (no overwrite)
+- Reusable dropdown/menu system
+- Global dark mode handling
+- Weather integration (future enhancements)
 
 ---
+
 ## 📁 Project Structure
+
 ```text
 src/
 ├── components/
@@ -134,16 +150,17 @@ src/
 │ └── index.css # Tailwind + CSS variables
 ```
 
+
 ---
 
 ## 🔧 Best Practices Applied
 
-- **State Management:** React useState + minimal prop drilling
-- **Component Reuse:** DaySection, MealItem, MenuItem reusable
-- **Responsive & Adaptive UI:** Follows mobile-first, iOS style
-- **Animation & Feedback:** Hover, focus, fade, slide-in
-- **Scalable Design Tokens:** Colors, shadows, spacing centralized
-- **Incremental Data Update:** Always append missing days, preserve meals
+- **State Management**: useState, minimal prop drilling  
+- **Component Reuse**: modular reusable components  
+- **Responsive Design**: mobile-first, iOS-style  
+- **Animations**: smooth transitions & interactions  
+- **Design Tokens**: centralized colors, spacing  
+- **Incremental Updates**: append data safely  
 
 ---
 
