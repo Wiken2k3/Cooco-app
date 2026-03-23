@@ -5,7 +5,7 @@ A modern food planning & discovery application built with **React + TailwindCSS*
 ---
 
 ## 🔗 Figma Design
-👉 [Cooco Figma Design](#)
+👉 (https://www.figma.com/design/3LS7KxG9vo9lIU5ilvgDvF/Cooco?node-id=0-1&p=f&t=qUPVJVFviNYpdwaS-0)
 
 ---
 
