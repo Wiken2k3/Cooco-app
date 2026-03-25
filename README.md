@@ -56,6 +56,8 @@ Hệ thống màu sắc được trích xuất trực tiếp từ bảng màu th
 | **Action Keys** | `#D1EFF8` | `#019AF5` |
 | **Suggest Keys** | `#EFDFF6` | `#C662EC` |
 | **Delete Key** | `#F7DEDD` | `#FF685E` |
+| **Card Background** | `#FFFFFF / dark: #1C1C1E` | `#000000 / dark: #F2F2F7` |
+| **FAB Background** | `#F7F7F7 / dark: #2C2C2E` | `#000000 / dark: #FFFFFF` |
 
 ---
 
@@ -67,6 +69,8 @@ Hệ thống màu sắc được trích xuất trực tiếp từ bảng màu th
 | **TailwindCSS** | Styling System & Design Tokens |
 | **Lucide Icons**| Icon Library |
 | **LocalStorage**| Data Persistence |
+| **React Router v6**| Navigation & Routing |
+| **Fetch API**| Weather Data Integration |
 
 ---
 
@@ -79,29 +83,37 @@ src/
 │   └── ...
 ├── pages/
 │   ├── MealPlan/
-│   │   └── ...
+│   │   ├── MealPlan.jsx
+│   │   └── DaySection.jsx
 │   ├── Discover/
+│   │   ├── Discover.jsx
 │   │   ├── AddRecipeModal.jsx
-│   │   └── FeedDetailModal.jsx
+│   │   └── SuggestedFeedsModal.jsx
 │   ├── Grocery/
 │   │   ├── Grocery.jsx               # Danh sách mua sắm chính
-│   │   ├── GroceryCalculateModal.jsx # Modal tính toán số lượng chuyên nghiệp
-│   │   └── AddToGroceryModal.jsx      # Modal chọn nguyên liệu nhanh
+│   │   ├── GroceryCalculateModal.jsx # Modal tính toán số lượng
+│   │   └── AddToGroceryModal.jsx     # Modal chọn nguyên liệu nhanh
+├── hooks/
+│   └── useTheme.jsx                  # Theme toggle Dark/Light
+├── config/
+│   └── navigation.js                 # Tab Bar config
+├── data/
+│   └── discoverFeeds.js              # Mock data cho Discover
 ├── styles/
-│   └── index.css # Tailwind + Custom iOS CSS Variables
+│   └── index.css                     # Tailwind + Custom iOS CSS Variables
+├── App.jsx
+└── main.jsx
 ```
-
 
 ---
 
 ## 🔧 Best Practices Applied
-Floating Action Buttons (FAB): Sử dụng absolute kết hợp z-index và pointer-events để tạo các nút điều khiển luôn nổi trên nội dung cuộn.
-
-Glassmorphism: Áp dụng backdrop-blur cho các thành phần nổi giúp UI có chiều sâu.
-
-UX Feedback: Hiệu ứng active:scale-95 trên tất cả các phím bấm tạo cảm giác vật lý.
-
-Clean Architecture: Tách biệt logic tính toán (Calculator) và logic chọn danh sách (Selection).
+Floating Action Buttons (FABs): Always visible on top of scrollable content using absolute + z-index.
+Glassmorphism: backdrop-blur and semi-transparent backgrounds for depth.
+UX Feedback: Active state scaling (active:scale-95) on buttons for tactile feel.
+Clean Architecture: Separation of concerns between Calculator logic, Selection logic, and UI components.
+LocalStorage Sync: Automatic persistence of Grocery and Discover data.
+Responsive Design: Max width 430px to mimic mobile viewport while allowing web preview.
 
 ---
 
