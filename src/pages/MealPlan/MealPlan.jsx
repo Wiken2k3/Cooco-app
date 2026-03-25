@@ -109,9 +109,9 @@ export default function MealPlan() {
     <div className="min-h-full pb-28 bg-[var(--color-bg)] transition-colors duration-300">
 
       {/* APPBAR */}
-      <div className="sticky top-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-md border-b border-[var(--color-border)] px-6 py-4 flex justify-between items-center">
+      <div className="sticky top-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-md border-b border-[var(--color-border)] px-6 pt-14 pb-4 flex justify-between items-center">
         
-        <h1 className="text-[32px] font-extrabold text-[var(--color-text)]">
+        <h1 className="text-[34px] font-extrabold text-[var(--color-text)] tracking-tight">
           Meal Plan
         </h1>
 

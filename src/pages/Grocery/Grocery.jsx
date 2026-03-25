@@ -23,7 +23,6 @@ export default function Grocery() {
     const formattedItems = newItemsFromModal.map(item => ({
       id: Date.now() + Math.random(),
       name: item.name,
-      // Tách số và đơn vị để đồng bộ với logic Calculate
       qty: item.qty.replace(/[^\d./]/g, '') || "1",
       unit: item.qty.replace(/[\d./]/g, '') || "Item",
       checked: false
@@ -40,46 +39,57 @@ export default function Grocery() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F2F2F7] pb-24 font-sans">
-      {/* AppBar - Apple Style Glassmorphism */}
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl px-5 pt-14 pb-4 flex justify-between items-end">
-        <h1 className="text-[34px] font-bold text-black tracking-tight leading-none">
+    <div className="min-h-screen bg-[var(--color-bg)] pb-24 font-sans transition-colors">
+
+      {/* HEADER đồng bộ */}
+      <div className="sticky top-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-md border-b border-[var(--color-border)] px-6 pt-14 pb-4 flex justify-between items-end">
+        
+        <h1 className="text-[34px] font-extrabold text-[var(--color-text)] tracking-tight">
           Groceries
         </h1>
-        <div className="flex items-center gap-2">
+
+        <div className="flex items-center gap-2.5">
           <button 
             onClick={() => setIsAddOpen(true)}
-            className="w-9 h-9 flex items-center justify-center rounded-full bg-[#E3F2FD] text-[#007AFF] active:scale-90 transition-all"
+            className="w-9 h-9 flex items-center justify-center rounded-full 
+            bg-[var(--color-button-bg)] hover:bg-[var(--color-button-hover)] 
+            text-[var(--color-button-color)] transition active:scale-95"
           >
-            <Plus size={24} strokeWidth={2.5} />
+            <Plus size={20} />
           </button>
-          <button className="w-9 h-9 flex items-center justify-center rounded-full bg-[#E3F2FD] text-[#007AFF] active:scale-90 transition-all">
-            <MoreHorizontal size={22} strokeWidth={2.5} />
+
+          <button 
+            className="w-9 h-9 flex items-center justify-center rounded-full 
+            bg-[var(--color-button-bg)] hover:bg-[var(--color-button-hover)] 
+            text-[var(--color-button-color)] transition active:scale-95"
+          >
+            <MoreHorizontal size={20} />
           </button>
         </div>
       </div>
 
-      {/* List Content - Mỗi item là một Card riêng biệt (Theo bản thiết kế mới) */}
-      <div className="px-4 pt-6 space-y-4"> 
+      {/* LIST */}
+      <div className="px-4 pt-6 space-y-4">
         {items.length > 0 ? (
           items.map((item) => (
             <div 
               key={item.id}
               onClick={() => { setSelectedItem(item); setIsCalcOpen(true); }}
-              className="flex items-center gap-4 p-4 bg-white rounded-[24px] shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-white active:scale-[0.98] active:bg-[#F9F9F9] transition-all cursor-pointer"
+              className="flex items-center gap-4 p-4 
+              bg-[var(--color-card)] 
+              rounded-[24px] 
+              shadow-[var(--shadow-sm)] 
+              border border-[var(--color-border)] 
+              active:scale-[0.98] 
+              transition-all cursor-pointer"
             >
-              {/* Box xám placeholder - Bo góc 16px chuẩn iOS */}
-              <div className="w-[52px] h-[52px] bg-[#F2F2F7] rounded-[16px] flex-shrink-0 flex items-center justify-center text-xl">
-                
-              </div>
-              
+              <div className="w-[52px] h-[52px] bg-[var(--color-bg)] rounded-[16px] flex-shrink-0 flex items-center justify-center text-xl border border-[var(--color-border)]" />
+
               <div className="flex items-center gap-2">
-                {/* Số lượng màu xanh dương */}
                 <span className="text-[20px] font-bold text-[#007AFF] leading-none">
                   {item.qty}
                 </span>
-                {/* Tên sản phẩm */}
-                <span className="text-[20px] font-bold text-black capitalize leading-none">
+                <span className="text-[20px] font-bold text-[var(--color-text)] capitalize leading-none">
                   {item.name}
                 </span>
               </div>
@@ -87,12 +97,14 @@ export default function Grocery() {
           ))
         ) : (
           <div className="py-20 text-center opacity-40">
-            <p className="text-[17px] font-medium">No items yet</p>
+            <p className="text-[17px] font-medium text-[var(--color-text-muted)]">
+              No items yet
+            </p>
           </div>
         )}
       </div>
 
-      {/* Modals */}
+      {/* MODALS */}
       {isAddOpen && (
         <AddToGroceryModal 
           onClose={() => setIsAddOpen(false)} 

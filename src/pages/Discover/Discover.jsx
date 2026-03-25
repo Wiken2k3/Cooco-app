@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import AddRecipeModal from "./AddRecipeModal";
 import SuggestedFeedsModal from "./SuggestedFeedsModal";
 
-// 1. Import dữ liệu gốc từ file bạn vừa tạo
+// 1. Import dữ liệu gốc
 import { discoverFeeds } from "../../data/discoverFeeds"; 
 
 export default function Discover() {
@@ -42,18 +42,16 @@ export default function Discover() {
     localStorage.setItem("addedIds", JSON.stringify(addedIds));
   }, [feeds, addedIds]);
 
-  // ================= HANDLE ADD FEED (Đã chỉnh sửa) =================
   const handleAddFeed = (creator) => {
     if (addedIds.includes(creator.id)) return;
 
-    // Tìm dữ liệu chi tiết trong discoverFeeds dựa trên ID của creator
     const sourceData = discoverFeeds.find(item => item.id === creator.id);
 
     if (sourceData) {
       const newRecipe = { 
-        ...sourceData,        // Lấy tất cả thuộc tính từ database (id, title, image, avatar...)
-        time: "Just now",    // Ghi đè thời gian hiển thị
-        displayImg: sourceData.image // Đảm bảo đồng bộ tên biến ảnh
+        ...sourceData,
+        time: "Just now",
+        displayImg: sourceData.image
       };
 
       setAddedIds(prev => [...prev, creator.id]);
@@ -64,9 +62,9 @@ export default function Discover() {
   return (
     <div className="min-h-screen bg-[var(--color-bg)] transition-colors">
 
-      {/* HEADER */}
+      {/* HEADER đồng bộ */}
       <div className="sticky top-0 z-50 bg-[var(--color-bg)]/90 backdrop-blur-md border-b border-[var(--color-border)] px-6 pt-14 pb-4 flex justify-between items-end">
-        <h1 className="text-[34px] font-[900] text-[var(--color-text)] tracking-tight">Discover</h1>
+        <h1 className="text-[34px] font-extrabold text-[var(--color-text)] tracking-tight">Discover</h1>
 
         <div className="flex items-center gap-2.5">
           <button 
@@ -112,7 +110,6 @@ export default function Discover() {
             <Sparkles size={48} strokeWidth={1.5} className="mb-6 text-[var(--color-text-muted)] opacity-30" />
             <h2 className="text-[22px] font-bold text-[var(--color-text)] mb-2">Discover</h2>
             <p className="text-[var(--color-text-muted)] text-[15px] mb-8">Add Feeds to discover new recipes</p>
-
             <button 
               onClick={() => setIsSuggestedOpen(true)}
               className="px-8 py-3 rounded-full text-white font-semibold text-[17px] shadow-md active:scale-95"
@@ -150,12 +147,10 @@ export default function Discover() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                   
-                  {/* TITLE: Top left */}
                   <div className="absolute top-4 left-4 text-white">
                     <h3 className="text-[20px] font-bold leading-tight drop-shadow-md">{item.title}</h3>
                   </div>
 
-                  {/* QUICK ADD BUTTON: Bottom right */}
                   <button
                     onClick={(e) => { e.stopPropagation(); setIsAddOpen(true); }}
                     className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-[var(--color-button-bg)] hover:bg-[var(--color-button-hover)] text-[var(--color-button-color)] flex items-center justify-center active:scale-90 transition"
