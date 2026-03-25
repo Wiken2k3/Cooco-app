@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-// Onboarding & Pages (Giữ nguyên các import của bạn)
+// Onboarding & Pages
 import Splash from "../pages/Onboarding/Splash";
 import Welcome from "../pages/Onboarding/Welcome";
+import Welcomenext from "../pages/Onboarding/Welcomenext";
 import FAQ1 from "../pages/Onboarding/FAQ1";
 import FAQ2 from "../pages/Onboarding/FAQ2";
 import FAQ3 from "../pages/Onboarding/FAQ3";
@@ -16,7 +17,14 @@ import DiscoverSteps from "../pages/DiscoverSteps/DiscoverSteps";
 import MealPlan from "../pages/MealPlan/MealPlan";
 import Grocery from "../pages/Grocery/Grocery";
 
-const Recipes = () => <div className="p-10">Recipes Page</div>;
+// --- IMPORT CÁC TRANG RECIPES CÒN THIẾU ---
+import Recipes from "../pages/Recipes/Recipes";
+import RecipeDetail from "../pages/Recipes/RecipeDetail";
+import RecipeSteps from "../pages/Recipes/RecipeSteps";
+import RecipeFolders from "../pages/Recipes/RecipeFolders";
+import ImportWebsite from "../pages/Recipes/AddRecipe/ImportWebsite";
+import ManualEntry from "../pages/Recipes/AddRecipe/ManualEntry";
+
 const Settings = () => <div className="p-10">Settings Page</div>;
 
 export default function AppRouter() {
@@ -24,8 +32,9 @@ export default function AppRouter() {
     <BrowserRouter>
       <Routes>
         {/* --- ONBOARDING FLOW --- */}
-        <Route path="/" element={<Splash />} />
         <Route path="/welcome" element={<Welcome />} />
+        <Route path="/welcomenext" element={<Welcomenext />} />
+        <Route path="/splash" element={<Splash />} />
         <Route path="/faq1" element={<FAQ1 />} />
         <Route path="/faq2" element={<FAQ2 />} />
         <Route path="/faq3" element={<FAQ3 />} />
@@ -35,27 +44,30 @@ export default function AppRouter() {
 
         {/* --- MAIN APP (Tất cả phải có tiền tố /app) --- */}
         <Route path="/app" element={<MainLayout />}>
-          {/* Mặc định vào /app sẽ nhảy sang /app/discover */}
           <Route index element={<Navigate to="discover" replace />} />
 
           {/* Tab Discover chính */}
           <Route path="discover" element={<Discover />} />
-          
-          {/* Chi tiết món ăn: /app/discover/:id */}
           <Route path="discover/:id" element={<DiscoverDetail />} />
-          
-          {/* Các bước nấu: /app/discover/:id/steps */}
           <Route path="discover/:id/steps" element={<DiscoverSteps />} />
 
-          {/* Các Tabs khác */}
+          {/* --- TAB RECIPES: Cập nhật các Route con còn thiếu --- */}
+          <Route path="recipes">
+            <Route index element={<Recipes />} />
+            <Route path=":id" element={<RecipeDetail />} />
+            <Route path=":id/steps" element={<RecipeSteps />} />
+            <Route path="folders" element={<RecipeFolders />} />
+            {/* Luồng thêm món ăn mới */}
+            <Route path="add/website" element={<ImportWebsite />} />
+            <Route path="add/manual" element={<ManualEntry />} />
+          </Route>
+
           <Route path="mealplan" element={<MealPlan />} />
           <Route path="grocery" element={<Grocery />} />
-          <Route path="recipes" element={<Recipes />} />
           <Route path="settings" element={<Settings />} />
         </Route>
 
-        {/* Catch-all: Nếu gõ bừa URL thì về Splash hoặc Trang chủ */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/welcome" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -46,7 +46,7 @@ export default function Splash() {
 
       {/* 2. LAYER PHỦ (OVERLAY): Chỉ nằm bên phải và chứa text hướng dẫn */}
       <div 
-        onClick={() => navigate("/welcome")}
+        onClick={() => navigate("/faq1")}
         className="absolute inset-y-0 right-0 w-[50%] bg-[#3f51b5]/90 backdrop-blur-[2px] cursor-pointer flex items-center justify-center transition-all active:bg-[#3f51b5]/100 z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.1)]"
       >
         {/* Text hướng dẫn: Nằm chính giữa vùng xanh dương */}

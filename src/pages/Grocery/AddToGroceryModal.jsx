@@ -19,13 +19,13 @@ export default function AddToGroceryModal({ onClose, onAdd }) {
   const [items, setItems] = useState(INITIAL_ITEMS);
   const [selected, setSelected] = useState(INITIAL_ITEMS.map(i => i.id));
 
-  const selectedObjects = useMemo(() => 
-    items.filter(item => selected.includes(item.id)), 
+  const selectedObjects = useMemo(
+    () => items.filter(item => selected.includes(item.id)),
     [items, selected]
   );
 
   const toggleSelect = (id) => {
-    setSelected(prev => 
+    setSelected(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
     );
   };
@@ -42,26 +42,12 @@ export default function AddToGroceryModal({ onClose, onAdd }) {
       <div className="absolute inset-0" onClick={onClose} />
 
       {/* MAIN MODAL */}
-      <div className="w-full 
-        bg-[var(--color-bg)] 
-        rounded-t-[40px] 
-        h-[92vh] 
-        flex flex-col 
-        relative 
-        shadow-2xl 
-        animate-in slide-in-from-bottom duration-500 
-        overflow-hidden
-        transition-colors
-      ">
+      <div className="w-full bg-[var(--color-bg)] rounded-t-[40px] h-[92vh] flex flex-col relative shadow-2xl animate-in slide-in-from-bottom duration-500 overflow-hidden transition-colors">
         
         {/* HEADER */}
-        <div className="px-6 py-5 flex justify-between items-center 
-          bg-[var(--color-card)] 
-          border-b border-[var(--color-border)] 
-          z-50
-        ">
-          <button 
-            onClick={onClose} 
+        <div className="px-6 py-5 flex justify-between items-center bg-[var(--color-card)] border-b border-[var(--color-border)] z-50">
+          <button
+            onClick={onClose}
             className="text-[var(--color-button-color)] text-[17px] font-semibold active:opacity-40"
           >
             Cancel
@@ -77,102 +63,61 @@ export default function AddToGroceryModal({ onClose, onAdd }) {
         {/* LIST */}
         <div className="flex-1 overflow-y-auto px-4 pt-4 pb-44 no-scrollbar">
           <div className="space-y-3">
-
-            {items.map((item) => {
+            {items.map(item => {
               const isSelected = selected.includes(item.id);
 
               return (
-                <div 
-                  key={item.id} 
-                  onClick={() => toggleSelect(item.id)} 
-                  className="flex items-center 
-                  bg-[var(--color-card)] 
-                  rounded-[22px] 
-                  p-4 
-                  active:scale-[0.98] 
-                  transition-all 
-                  cursor-pointer 
-                  shadow-[var(--shadow-sm)] 
-                  border border-[var(--color-border)]
-                "
+                <div
+                  key={item.id}
+                  onClick={() => toggleSelect(item.id)}
+                  className="flex items-center bg-[var(--color-card)] rounded-[22px] p-4 active:scale-[0.98] transition-all cursor-pointer shadow-[var(--shadow-sm)] border border-[var(--color-border)]"
                 >
 
                   {/* CHECK */}
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
-                    isSelected 
-                      ? 'bg-[#007AFF]' 
-                      : 'border-2 border-[var(--color-border)]'
-                  }`}>
-                    {isSelected && (
-                      <Check size={16} className="text-white stroke-[4]" />
-                    )}
+                  <div
+                    className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
+                      isSelected ? "bg-[#007AFF]" : "border-2 border-[var(--color-border)]"
+                    }`}
+                  >
+                    {isSelected && <Check size={16} className="text-white stroke-[4]" />}
                   </div>
 
                   {/* TEXT */}
                   <div className="flex flex-1 items-center gap-1.5 ml-4">
-
-                    <span className="text-[18px] font-bold text-[#007AFF]">
-                      {item.qty}
-                    </span>
-
-                    <span className="text-[18px] font-bold text-[var(--color-text)]">
-                      {item.name}
-                    </span>
-
-                    <span className="text-[18px] text-[var(--color-text-muted)] font-medium">
-                      ({item.price})
-                    </span>
-
+                    <span className="text-[18px] font-bold text-[#007AFF]">{item.qty}</span>
+                    <span className="text-[18px] font-bold text-[var(--color-text)]">{item.name}</span>
+                    <span className="text-[18px] text-[var(--color-text-muted)] font-medium">({item.price})</span>
                   </div>
 
-                  {/* DELETE */}
+                  {/* DELETE BUTTON */}
                   <button
                     onClick={(e) => removeItem(e, item.id)}
-                    className="w-8 h-8 rounded-full 
-                    bg-[var(--color-bg)] 
-                    border border-[var(--color-border)] 
-                    flex items-center justify-center 
-                    active:scale-90 
-                    text-[var(--color-text-muted)]
-                  "
+                    className="w-8 h-8 rounded-full bg-[#F7DEDD] flex items-center justify-center active:scale-90 transition-all"
                   >
-                    <X size={18} />
+                    <X size={18} className="text-[#FF0000]" />
                   </button>
 
                 </div>
               );
             })}
-
           </div>
         </div>
 
         {/* BOTTOM BUTTONS */}
         <div className="absolute bottom-10 left-0 right-0 px-6 z-50 flex gap-3 pointer-events-none">
 
-          <button 
-            onClick={() => setSelected([])} 
-            className="flex-1 pointer-events-auto py-4 
-            bg-[var(--color-card)]/95 
-            backdrop-blur-md 
-            text-[var(--color-button-color)] 
-            rounded-[24px] 
-            font-bold text-[17px] 
-            active:scale-95 
-            transition-all 
-            shadow-xl 
-            border border-[var(--color-border)]
-          "
+          <button
+            onClick={() => setSelected([])}
+            className="flex-1 pointer-events-auto py-4 bg-[var(--color-card)]/95 backdrop-blur-md text-[var(--color-button-color)] rounded-[24px] font-bold text-[17px] active:scale-95 transition-all shadow-xl border border-[var(--color-border)]"
           >
             Deselect All
           </button>
-          
-          <button 
-            onClick={() => onAdd(selectedObjects)} 
+
+          <button
+            onClick={() => onAdd(selectedObjects)}
             disabled={selected.length === 0}
             className={`flex-[1.5] pointer-events-auto py-4 rounded-[24px] font-bold text-[17px] transition-all active:scale-95 shadow-xl ${
-              selected.length > 0 
-                ? 'bg-[#007AFF] text-white' 
-                : 'bg-[var(--color-border)] text-[var(--color-text-muted)] opacity-80'
+              selected.length > 0 ? "bg-[#007AFF] text-white" : "bg-[var(--color-border)] text-[var(--color-text-muted)] opacity-80"
             }`}
           >
             Add {selected.length} Items

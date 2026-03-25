@@ -12,7 +12,9 @@ const tags = [
 
 export default function FAQ2() {
   const navigate = useNavigate();
+
   const [selectedTags, setSelectedTags] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleTag = (tag) => {
     setSelectedTags(prev =>
@@ -22,7 +24,11 @@ export default function FAQ2() {
     );
   };
 
-  // ✅ phải chọn ít nhất 1
+  // ✅ chỉ thêm logic filter (KHÔNG đổi UI)
+  const filteredTags = tags.filter(tag =>
+    tag.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const canNext = selectedTags.length > 0;
 
   return (
@@ -41,13 +47,15 @@ export default function FAQ2() {
           Are there any foods you dislike?
         </p>
 
-        {/* SEARCH */}
+        {/* SEARCH (UI giữ nguyên, chỉ thêm value + onChange) */}
         <div className="relative mb-8">
           <Search
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
             size={20}
           />
           <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-gray-100 rounded-xl py-4 pl-12 pr-4 outline-none text-lg focus:ring-2 focus:ring-blue-500/30"
             placeholder="Search"
           />
@@ -59,7 +67,7 @@ export default function FAQ2() {
         </h3>
 
         <div className="flex flex-wrap gap-2">
-          {tags.map(tag => {
+          {filteredTags.map(tag => {
             const isSelected = selectedTags.includes(tag);
 
             return (
