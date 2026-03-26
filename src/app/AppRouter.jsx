@@ -17,15 +17,14 @@ import DiscoverSteps from "../pages/DiscoverSteps/DiscoverSteps";
 import MealPlan from "../pages/MealPlan/MealPlan";
 import Grocery from "../pages/Grocery/Grocery";
 
-// --- IMPORT CÁC TRANG RECIPES CÒN THIẾU ---
+// --- IMPORT CÁC TRANG RECIPES ---
 import Recipes from "../pages/Recipes/Recipes";
 import RecipeDetail from "../pages/Recipes/RecipeDetail";
 import RecipeSteps from "../pages/Recipes/RecipeSteps";
 import RecipeFolders from "../pages/Recipes/RecipeFolders";
 import ImportWebsite from "../pages/Recipes/AddRecipe/ImportWebsite";
 import ManualEntry from "../pages/Recipes/AddRecipe/ManualEntry";
-
-const Settings = () => <div className="p-10">Settings Page</div>;
+import Settings from "../pages/Settings/Settings"; 
 
 export default function AppRouter() {
   return (
@@ -51,19 +50,20 @@ export default function AppRouter() {
           <Route path="discover/:id" element={<DiscoverDetail />} />
           <Route path="discover/:id/steps" element={<DiscoverSteps />} />
 
-          {/* --- TAB RECIPES: Cập nhật các Route con còn thiếu --- */}
+          {/* --- TAB RECIPES --- */}
           <Route path="recipes">
             <Route index element={<Recipes />} />
             <Route path=":id" element={<RecipeDetail />} />
             <Route path=":id/steps" element={<RecipeSteps />} />
             <Route path="folders" element={<RecipeFolders />} />
-            {/* Luồng thêm món ăn mới */}
             <Route path="add/website" element={<ImportWebsite />} />
             <Route path="add/manual" element={<ManualEntry />} />
           </Route>
 
           <Route path="mealplan" element={<MealPlan />} />
           <Route path="grocery" element={<Grocery />} />
+          
+          {/* Đã thay đổi Settings Page ở đây */}
           <Route path="settings" element={<Settings />} />
         </Route>
 
