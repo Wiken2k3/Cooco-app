@@ -174,7 +174,9 @@ src/
 │   │   ├── ImportWebsite.jsx # Import từ URL
 │   │   ├── ManualEntry.jsx   # Form nhập liệu tay
 │   │   └── ScanRecipe.jsx    # Camera AI Scan giả lập
-│   ├── Discover/
+│    ├── Settings/
+│   │   └── Settings.jsx      # Trang cài đặt tổng thể & Profile
+    ├── Discover/
 │   │   ├── Discover.jsx
 │   │   ├── AddRecipeModal.jsx
 │   │   └── SuggestedFeedsModal.jsx
