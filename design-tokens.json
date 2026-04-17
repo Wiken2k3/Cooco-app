@@ -1,0 +1,79 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "color": {
+    "brand": {
+      "primary": { "$type": "color", "$value": "#57BBFF" },
+      "accent": { "$type": "color", "$value": "#E9465F" },
+      "yellow": { "$type": "color", "$value": "#FFE365" }
+    },
+    "background": {
+      "light": { "$type": "color", "$value": "#FFFFFF" },
+      "dark": { "$type": "color", "$value": "#000000" }
+    },
+    "surface": {
+      "cardLight": { "$type": "color", "$value": "#FFFFFF" },
+      "cardDark": { "$type": "color", "$value": "#1C1C1E" }
+    },
+    "text": {
+      "primaryLight": { "$type": "color", "$value": "#1C1C1E" },
+      "primaryDark": { "$type": "color", "$value": "#FFFFFF" },
+      "muted": { "$type": "color", "$value": "#8E8E93" }
+    },
+    "border": {
+      "light": { "$type": "color", "$value": "#E5E5EA" },
+      "dark": { "$type": "color", "$value": "#38383A" }
+    },
+    "button": {
+      "bg": { "$type": "color", "$value": "rgba(24,186,248,0.2)" },
+      "hover": { "$type": "color", "$value": "rgba(24,186,248,0.3)" },
+      "text": { "$type": "color", "$value": "#57BBFF" }
+    },
+    "sub": {
+      "color1": { "$type": "color", "$value": "#8EDEE7" },
+      "color2": { "$type": "color", "$value": "#3099FF" },
+      "color3": { "$type": "color", "$value": "#ADC769" },
+      "color4": { "$type": "color", "$value": "#FAC172" },
+      "color5": { "$type": "color", "$value": "#FF8357" }
+    },
+    "feedback": {
+      "progressTrackLight": { "$type": "color", "$value": "#F3F4F6" },
+      "progressTrackAlt": { "$type": "color", "$value": "#E5E7EB" },
+      "progressFillDefault": { "$type": "color", "$value": "#22C55E" },
+      "progressFillBrand": { "$type": "color", "$value": "#57BBFF" }
+    }
+  },
+  "fontFamily": {
+    "heading": { "$type": "fontFamily", "$value": ["Poppins"] },
+    "body": { "$type": "fontFamily", "$value": ["Open Sans"] }
+  },
+  "fontSize": {
+    "text-sm": { "$type": "fontSize", "$value": "14px" },
+    "text-base": { "$type": "fontSize", "$value": "16px" },
+    "text-lg": { "$type": "fontSize", "$value": "18px" },
+    "h1": { "$type": "fontSize", "$value": "34px" },
+    "h2": { "$type": "fontSize", "$value": "32px" }
+  },
+  "fontWeight": {
+    "heading": { "$type": "fontWeight", "$value": "700" },
+    "semibold": { "$type": "fontWeight", "$value": "600" },
+    "regular": { "$type": "fontWeight", "$value": "400" }
+  },
+  "radius": {
+    "sm": { "$type": "borderRadius", "$value": "0.5rem" },
+    "md": { "$type": "borderRadius", "$value": "0.75rem" },
+    "lg": { "$type": "borderRadius", "$value": "1rem" },
+    "xl": { "$type": "borderRadius", "$value": "0.75rem" },
+    "full": { "$type": "borderRadius", "$value": "9999px" }
+  },
+  "spacing": {
+    "buttonPaddingY": { "$type": "dimension", "$value": "1rem" },
+    "progressOuterPaddingX": { "$type": "dimension", "$value": "2rem" }
+  },
+  "motion": {
+    "buttonTransition": {
+      "$type": "cubicBezier",
+      "$value": [0.4, 0, 0.2, 1]
+    },
+    "progressDuration": { "$type": "duration", "$value": "300ms" }
+  }
+}

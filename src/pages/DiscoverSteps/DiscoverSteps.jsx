@@ -8,11 +8,11 @@ export default function DiscoverSteps() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
 
-  const feed = discoverFeeds.find((f) => f.id === id);
+  const feed = discoverFeeds.find((f) => String(f.id) === String(id));
 
   // Redirect nếu không tìm thấy feed
   useEffect(() => {
-    if (!feed) navigate("/discover");
+    if (!feed) navigate("/app/discover");
   }, [feed, navigate]);
 
   if (!feed) return null;
@@ -20,7 +20,7 @@ export default function DiscoverSteps() {
   const steps = feed.steps || [];
   const totalSteps = steps.length;
 
-  // Hàm để highlight các từ quan trọng (Dùng dangerouslySetInnerHTML để render class Tailwind)
+  // Hàm để highlight các từ quan trọng (Sử dụng biến màu hệ thống)
   const formatStepText = (text) => {
     const highlights = [
       "dates", "pitted", "Medjool date", "chunky peanut butter", 
@@ -30,29 +30,30 @@ export default function DiscoverSteps() {
 
     let formattedText = text;
     highlights.forEach((word) => {
-      const regex = new RegExp(`(${word})`, "gi");
-      // Sử dụng class text-[#00A3FF] của Tailwind
+      // Thêm \b để nhận diện chính xác từ (Word Boundary)
+      const regex = new RegExp(`\\b(${word})\\b`, "gi");
+      // Sử dụng class màu biến thay vì hardcode #00A3FF
       formattedText = formattedText.replace(
         regex, 
-        `<span class="text-[#00A3FF] font-bold">$1</span>`
+        `<span class="text-[var(--color-main)] font-black">$1</span>`
       );
     });
 
     return (
       <p 
-        className="text-[32px] font-[700] leading-[1.3] text-black dark:text-white transition-all duration-300"
+        className="text-[32px] font-[700] leading-[1.3] text-[var(--color-text)] transition-colors duration-300"
         dangerouslySetInnerHTML={{ __html: formattedText }} 
       />
     );
   };
 
   return (
-    <div className="fixed inset-0 bg-white dark:bg-[#121212] z-[9999] flex flex-col px-6 pt-[env(safe-area-inset-top,20px)] pb-[env(safe-area-inset-bottom,20px)] overflow-hidden">
+    <div className="fixed inset-0 bg-[var(--color-bg)] z-[9999] flex flex-col px-6 pt-[env(safe-area-inset-top,20px)] pb-[env(safe-area-inset-bottom,20px)] overflow-hidden transition-colors duration-300">
       
       {/* HEADER ACTIONS */}
       <header className="h-[60px] flex justify-between items-center mt-2">
         <button
-          className="p-2 text-gray-400 hover:text-gray-600 active:scale-90 transition-transform"
+          className="p-2 text-[var(--color-text-muted)] hover:text-[var(--color-text)] active:scale-90 transition-all"
           onClick={() => navigate(-1)}
         >
           <X size={32} strokeWidth={1.5} />
@@ -68,12 +69,12 @@ export default function DiscoverSteps() {
 
       {/* CONTENT AREA */}
       <main className="flex-1 flex flex-col justify-center mb-24">
-        <div className="text-[24px] text-gray-400 font-bold mb-4 tracking-tight">
+        <div className="text-[24px] text-[var(--color-text-muted)] font-bold mb-4 tracking-tight">
           Step {currentStep + 1}
         </div>
 
         <div className="min-h-[200px]">
-          {formatStepText(steps[currentStep])}
+          {steps.length > 0 ? formatStepText(steps[currentStep]) : <p className="text-[var(--color-text-muted)]">No steps available.</p>}
         </div>
       </main>
 
@@ -83,7 +84,7 @@ export default function DiscoverSteps() {
         {/* Previous Button */}
         {currentStep > 0 && (
           <button
-            className="absolute left-0 w-[72px] h-[72px] bg-[#00A3FF] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,163,255,0.3)] active:scale-90 transition-all"
+            className="absolute left-0 w-[72px] h-[72px] bg-[var(--color-main)] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(var(--color-main-rgb,0,163,255),0.3)] hover:brightness-110 active:scale-90 transition-all"
             onClick={() => setCurrentStep((prev) => prev - 1)}
           >
             <ArrowLeft size={36} color="white" strokeWidth={3} />
@@ -93,7 +94,7 @@ export default function DiscoverSteps() {
         {/* Next Button */}
         {currentStep < totalSteps - 1 && (
           <button
-            className="absolute right-0 w-[72px] h-[72px] bg-[#00A3FF] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(0,163,255,0.3)] active:scale-90 transition-all"
+            className="absolute right-0 w-[72px] h-[72px] bg-[var(--color-main)] rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(var(--color-main-rgb,0,163,255),0.3)] hover:brightness-110 active:scale-90 transition-all"
             onClick={() => setCurrentStep((prev) => prev + 1)}
           >
             <ArrowRight size={36} color="white" strokeWidth={3} />
@@ -103,7 +104,7 @@ export default function DiscoverSteps() {
         {/* Finish Button (Xuất hiện ở bước cuối) */}
         {currentStep === totalSteps - 1 && (
           <button
-            className="absolute right-0 px-8 h-[72px] bg-[#34C759] text-white font-black text-xl rounded-full shadow-[0_8px_20px_rgba(52,199,89,0.3)] active:scale-90 transition-all"
+            className="absolute right-0 px-8 h-[72px] bg-[#34C759] text-white font-black text-xl rounded-full shadow-[0_8px_20px_rgba(52,199,89,0.3)] hover:brightness-105 active:scale-90 transition-all"
             onClick={() => navigate(-1)}
           >
             FINISH
@@ -117,8 +118,8 @@ export default function DiscoverSteps() {
               key={index}
               className={`h-2.5 rounded-full transition-all duration-300 ${
                 index === currentStep 
-                  ? "w-6 bg-[#00A3FF]" 
-                  : "w-2.5 bg-gray-200 dark:bg-gray-800"
+                  ? "w-6 bg-[var(--color-main)]" 
+                  : "w-2.5 bg-[var(--color-border)]"
               }`}
             />
           ))}
@@ -131,7 +132,7 @@ export default function DiscoverSteps() {
 // Sub-component cho các nút icon trên Header
 function HeaderIconBtn({ icon }) {
   return (
-    <button className="p-2 text-[#8EBDD3] hover:text-[#00A3FF] active:scale-90 transition-all">
+    <button className="p-2 text-[var(--color-text-muted)] opacity-70 hover:opacity-100 hover:text-[var(--color-main)] active:scale-90 transition-all">
       {icon}
     </button>
   );
